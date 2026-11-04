@@ -10,4 +10,21 @@ class LibroDAO:
     def __init__(self):
         pass
 
-    # TODO
+    def select_libri(self, genere):
+        db = DBConnect()
+        cnx = db.get_connection()
+
+        if cnx is not None:
+            cursor = cnx.cursor()
+            query = "SELECT id, titolo, autore, genere, anno_pubblicazione, id_biblioteca FROM libro WHERE genere = %s"
+            cursor.execute(query,(genere,))
+            result=[]
+            for row in cursor:
+                libro = Libro(row[0], row[1], row[2], row[3], row[4], row[5])
+                result.append(libro)
+
+            cursor.close()
+            cnx.close()
+            return result
+        else:
+            return []
