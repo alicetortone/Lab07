@@ -10,14 +10,13 @@ class LibroDAO:
     def __init__(self):
         pass
 
-    def select_libri(self, genere):
-        db = DBConnect()
-        cnx = db.get_connection()
+    def get_libri(self):
+        cnx = DBConnect.get_connection()
 
         if cnx is not None:
             cursor = cnx.cursor()
-            query = "SELECT id, titolo, autore, genere, anno_pubblicazione, id_biblioteca FROM libro WHERE genere = %s"
-            cursor.execute(query,(genere,))
+            query = "SELECT id, titolo, autore, genere, anno_pubblicazione, id_biblioteca FROM libro"
+            cursor.execute(query)
             result=[]
             for row in cursor:
                 libro = Libro(row[0], row[1], row[2], row[3], row[4], row[5])

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+from model.biblioteca_DTO import Biblioteca
 '''
     DTO (Data Transfer Object) dell'entità Libro
 '''
@@ -12,6 +12,7 @@ class Libro:
     genere: str
     anno_pubblicazione: int
     id_biblioteca: int
+    biblioteca: Biblioteca = None
 
     def __eq__(self, other):
         return isinstance(other, Libro) and self.id == other.id

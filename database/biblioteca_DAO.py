@@ -10,14 +10,13 @@ class BibliotecaDAO:
     def __init__(self):
         pass
 
-    def select_biblioteca(self,nome_biblioteca):
-        db = DBConnect()
-        cnx = db.get_connection()
+    def get_biblioteche(self):
+        cnx = DBConnect.get_connection()
 
         if cnx is not None:
-            query = f"SELECT id, nome, indirizzo  FROM biblioteca WHERE nome = %s"
+            query = f"SELECT id, nome, indirizzo  FROM biblioteca"
             cursor = cnx.cursor()
-            cursor.execute(query,(nome_biblioteca,))
+            cursor.execute(query)
             result = []
             for row in cursor:
                 biblioteca = Biblioteca(row[0], row[1], row[2])

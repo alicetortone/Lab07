@@ -16,13 +16,42 @@ class Model:
     # --- LIBRI ---
     def get_libri_filtrati(self, biblioteca:str, genere:str):
         """Restituisce la lista di tutti i libri filtrati per biblioteca e/o genere (filtri opzionali)."""
-        # TODO
+        libri=self._libro_dao.get_libri()
+        biblioteche = self._biblioteca_dao.get_biblioteche()
+
+        for libro in libri:
+            for b in biblioteche:
+                if libro.id_biblioteca == b.id:
+                    libro.biblioteca = b
+                #faccio questo per associae ogni libro alla sua biblioteca
+
+        if biblioteca != "Nessun filtro" :
+            libri_filtrati  = []
+            for libro in libri:
+                if libro.biblioteca.nome == biblioteca :
+                    libri_filtrati.append(libro)
+            libri = libri_filtrati
+
+        if genere != "Nessun filtro":
+            libri_filtrati = []
+            for libro in libri:
+                if libro.genere == genere:
+                    libri_filtrati.append(libro)
+            libri = libri_filtrati
+
+        return libri
 
     def get_generi(self):
         """Restituisce la lista di tutti i generi."""
-        # TODO
+        libri = self._libro_dao.get_libri()
+        generi = []
+        for libro in libri:
+            if libro.genere not in generi:
+                generi.append(libro.genere)
+
+        return generi
 
     # --- BIBLIOTECHE ---
     def get_biblioteche(self):
         """ Restituisce la lista di tutte le biblioteche."""
-        # TODO
+        return self._biblioteca_dao.get_biblioteche()

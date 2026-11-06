@@ -11,6 +11,8 @@ def main(page: ft.Page):
     my_controller = Controller(my_view, my_model)
     my_view.set_controller(my_controller)
     my_view.load_interface()
+    #devo aggiungere load_data del controller per caricare i dati del model
+    my_controller.load_data()
 
 
 ft.run(main)

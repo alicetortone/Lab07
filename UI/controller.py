@@ -14,12 +14,8 @@ class Controller:
         self._view = view
 
         # Variabili per memorizzare le selezioni correnti
-        self.biblioteca_selezionata = None
-        self.genere_selezionato = None
-
-    # POPOLA DROPDOWN
-    biblioteche = self._model.get_biblioteche()
-    generi = self._model.get_generi()
+        self.biblioteca_selezionata = "Nessun filtro"
+        self.genere_selezionato = "Nessun filtro"
 
     # CALLBACKS DROPDOWN
     def handle_biblioteca(self,e):
@@ -28,6 +24,17 @@ class Controller:
     def handle_genere_selezionato(self,e):
         self.genere_selezionato = e.control.value
 
-    # AZIONE: MOSTRA LIBRI
-    def get_libri_selezionati(self, biblioteca, generi):
-        libri = self._model.get_libri_seleizonati(self.biblioteca_selezionata, self.genere_selezionato)
+    def load_data(self):
+        biblioteche = self._model.get_biblioteche()
+        generi = self._model.get_generi()
+
+        self._view.set_biblioteche(biblioteche)
+        self._view.set_generi(generi)
+
+    def handle_mostra_libri(self, e):
+        libri = self._model.get_libri_filtrati(self.biblioteca_selezionata, self.genere_selezionato)
+
+        if len(libri) == 0:
+            self._view.show_alert("Nessun libro trovato!")
+        else:
+            self._view.mostra_libri(libri)
